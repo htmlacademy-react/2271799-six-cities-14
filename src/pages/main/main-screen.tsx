@@ -23,6 +23,7 @@ function MainScreen(): JSX.Element {
   const [activeSorting, setActiveSorting] = useState<SortingType>('Popular');
   const [hoveredOfferId, setHoveredId] = useState<Offer['id'] | null>(null);
   const fetchingStatus = useAppSelector((state) => state.offersFetchingStatus);
+
   function handleCardHover(offerId: Offer['id'] | null) {
     setHoveredId(offerId);
   }

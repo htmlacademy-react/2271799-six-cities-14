@@ -1,21 +1,23 @@
 import MemorizedLogo from '../logo/logo';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { AuthorizationStatus } from '../../const';
+// import { AuthorizationStatus } from '../../const';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { logout } from '../../store/api-action';
 import { memo } from 'react';
+import { getIsAuthorized, getUser } from '../../store/user/selector';
+import { getFavorites } from '../../store/favorites/selector';
 
 function Header(): JSX.Element {
-  const status = useAppSelector((state) => state.authorizationStatus);
-  const userData = useAppSelector((state) => state.user);
+  const status = useAppSelector(getIsAuthorized);
+  const userData = useAppSelector(getUser);
   const dispatch = useAppDispatch();
 
   const handleLogoutClick = () => {
     dispatch(logout());
   };
 
-  const favoritesCount = useAppSelector((state) => state.favorites);
+  const favoritesCount = useAppSelector(getFavorites);
 
   return (
     <header className='header'>
@@ -25,7 +27,7 @@ function Header(): JSX.Element {
             <MemorizedLogo />
           </div>
           <nav className='header__nav'>
-            {status === AuthorizationStatus.Auth ?
+            {status ?
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
                   <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>

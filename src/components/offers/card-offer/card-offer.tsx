@@ -25,6 +25,10 @@ function CardOffer({
     onCardHover?.(null);
   };
 
+  const handleTitleClick = () => {
+    window.location.href = `/offer/${id}`;
+  };
+
   return (
     <article className={`${block}__card place-card`}
       onMouseEnter={handleMouseEnter}
@@ -58,7 +62,7 @@ function CardOffer({
           </div>
         </div>
         <h2 className='place-card__name'>
-          <Link to={`/offer/${id}`}>
+          <Link to={`/offer/${id}`} onClick={handleTitleClick}>
             {title}
           </Link>
         </h2>

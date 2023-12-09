@@ -2,9 +2,10 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Offer } from '../../types/offer';
 import cn from 'classnames';
 import { useCallback } from 'react';
-import { fetchOffers, postFavorites } from '../../store/api-action';
+import { fetchOffer, fetchOffers, postFavorites } from '../../store/api-action';
 import { useNavigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
+import { getIsAuthorized } from '../../store/user/selector';
 
 export type BookmarkSizeType = 'small' | 'large';
 
@@ -27,17 +28,20 @@ function BookmarkButton({
   size = 'small',
   offer
 }: BookmarkButtonProps) {
-  const isAuthorized = useAppSelector((state) => state.authorizationStatus);
+  const isAuthorized = useAppSelector(getIsAuthorized);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {id, isFavorite} = offer;
 
-  const handleButtonClick = useCallback(() => {
-    if(isAuthorized === AuthorizationStatus.NoAuth) {
+  const handleButtonClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if(!isAuthorized) {
       navigate(AppRoute.Login);
     } else {
       dispatch(postFavorites({ offerId: id, status: isFavorite ? 0 : 1}))
         .then(() => {
+          dispatch(fetchOffer(id));
           dispatch(fetchOffers());
         });
     }

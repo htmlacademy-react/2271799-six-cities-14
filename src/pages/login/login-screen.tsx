@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { useAppSelector } from '../../hooks';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { AuthorizationStatus } from '../../const';
 import {Helmet} from 'react-helmet-async';
 import { FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { login } from '../../store/api-action';
 import MemorizedLogo from '../../components/logo/logo';
+import { getIsAuthorized } from '../../store/user/selector';
 
 function LoginScreen(): JSX.Element {
   const [valueEmail, setValueEmail] = useState('');
@@ -18,7 +18,7 @@ function LoginScreen(): JSX.Element {
     evt.preventDefault();
     setValueEmail(evt.target.value);
   };
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getIsAuthorized);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ function LoginScreen(): JSX.Element {
   };
 
   useEffect(() => {
-    if (authorizationStatus === AuthorizationStatus.Auth) {
+    if (authorizationStatus) {
       navigate(AppRoute.Main);
     }
   }, [authorizationStatus, navigate]);

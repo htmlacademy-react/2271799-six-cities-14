@@ -2,11 +2,12 @@ import { CityMapData } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setActiveCity } from '../../store/actions';
 import { memo } from 'react';
+import { getActiveCity } from '../../store/offers/selector';
 
 const cities = Object.values(CityMapData);
 
 function Locations(): JSX.Element {
-  const activeCity = useAppSelector((state) => state.activeCity);
+  const activeCity = useAppSelector(getActiveCity);
   const dispatch = useAppDispatch();
 
   return (

@@ -14,15 +14,17 @@ import MainEmpty from '../../components/main/main-empty';
 import { RequestStatus } from '../../const';
 import Loader from '../../components/loader/loader';
 import ErrorDisplay from '../../components/error-display/error-display';
+import { getActiveCity, getOffers } from '../../store/offers/selector';
+import { getFetchingStatus } from '../../store/offers/selector';
 
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
-  const activeCity = useAppSelector((state) => state.activeCity);
-  const offers = useAppSelector((state) => state.offers);
+  const activeCity = useAppSelector(getActiveCity);
+  const offers = useAppSelector(getOffers);
   const offerByCity = offers.filter((offer) => offer.city?.name === activeCity.name);
   const [activeSorting, setActiveSorting] = useState<SortingType>('Popular');
   const [hoveredOfferId, setHoveredId] = useState<Offer['id'] | null>(null);
-  const fetchingStatus = useAppSelector((state) => state.offersFetchingStatus);
+  const fetchingStatus = useAppSelector(getFetchingStatus);
 
   function handleCardHover(offerId: Offer['id'] | null) {
     setHoveredId(offerId);

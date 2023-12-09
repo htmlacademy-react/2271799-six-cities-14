@@ -6,7 +6,8 @@ import BookmarkButton from '../../bookmark-button/bookmark-button';
 import { ReviewType } from '../../../types/review';
 import ReviewForm from '../../review/review-form';
 import { useAppSelector } from '../../../hooks';
-import { AuthorizationStatus, MAX_IMAGES_COUNT } from '../../../const';
+import { MAX_IMAGES_COUNT } from '../../../const';
+import { getIsAuthorized } from '../../../store/user/selector';
 
 type OfferTypeProps = {
   offer: Offer | null;
@@ -16,7 +17,7 @@ type OfferTypeProps = {
 }
 
 function OfferDetails ({offer, offerId, reviews, reviewsRender}: OfferTypeProps) {
-  const status = useAppSelector((state) => state.authorizationStatus);
+  const status = useAppSelector(getIsAuthorized);
   if(!offer) {
     return null;
   }
@@ -97,7 +98,7 @@ function OfferDetails ({offer, offerId, reviews, reviewsRender}: OfferTypeProps)
           </div>
           <section className="offer__reviews reviews">
             <ReviewList reviewsRender={reviewsRender} reviews={reviews}/>
-            {status === AuthorizationStatus.Auth ?
+            {status ?
               <ReviewForm offerId={offerId}/>
               : ''}
           </section>

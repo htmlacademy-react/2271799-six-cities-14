@@ -4,7 +4,7 @@ import { Offer } from '../../../types/offer';
 type ListOffersProps = {
   offers: Offer[];
   block: string;
-  onCardHover: (id: string | null) => void;
+  onCardHover?: (id: string | null) => void;
   size: 'small' | 'large';
 }
 

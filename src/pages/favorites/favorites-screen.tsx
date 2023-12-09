@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import {useEffect} from 'react';
 import { fetchFavorites } from '../../store/api-action';
 import FavoritesEmpty from '../../components/favorites/favorites-empty';
+import { getFavorites } from '../../store/favorites/selector';
 
 function getFavoritesByCity(favorites: Offer[]) {
   return favorites.reduce<{ [key: string]: Offer[] }>((acc, curr) => {
@@ -23,7 +24,7 @@ function getFavoritesByCity(favorites: Offer[]) {
 }
 
 function FavoritesScreen(): JSX.Element {
-  const favorites = useAppSelector((state) => state.favorites);
+  const favorites = useAppSelector(getFavorites);
   const favoritesByCity = getFavoritesByCity(favorites);
   const dispatch = useAppDispatch();
   useEffect(() => {
